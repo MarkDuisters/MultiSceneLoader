@@ -20,3 +20,12 @@ Note:
 - All the scenes that you want to load do have to be present in your build list.
 - The multiscenes that you are using should also be present in the LoadManager's build list.
 - Working with this method also prevents/reduces merge conflicts within unity projects as developers are not touching eachothers scenes.
+
+
+Instalation:
+
+- Either clone the complete project.
+- Or if you are only interested in the system, download the MultiScene_loader folder inside the script folder and import it.
+  Then create an Empty GameObject and attach the MultiSceneManager to it.
+ 
+- Create a MultiSceneObject by right clicking in your Asset folder, go to ScriptableObjects and click on MultiSceneObject.

@@ -13,3 +13,10 @@ Instead of using the scenemanager to load a single scene, you can create a Multi
 that should form a singular scene. Placing the Multiscene manager script in your scene allows you to load this object which will then 
 use unity's scenemanager to load each contained scene. You call the load methods through a singleton static instance, but it looks similar to the
 scenemanagers "LoadScene" syntax.
+
+
+Note:
+
+- All the scenes that you want to load do have to be present in your build list.
+- The multiscenes that you are using should also be present in the LoadManager's build list.
+- Working with this method also prevents/reduces merge conflicts within unity projects as developers are not touching eachothers scenes.

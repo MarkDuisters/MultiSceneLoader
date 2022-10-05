@@ -8,7 +8,7 @@ You or your team are working on a level consisting of multiple scene files. One 
 Instead of placing each developer in a prefab within a single scene, you can each assign them a dedicated scene to work on for their part.
 
 The MultiSceneObject will reference those scenes.
-![[MultiScenefile](MultiSceneLoader/img/MultiScenefile.PNG)
+![[MultiScenefile](/MultiSceneLoader/img/MultiScenefile.PNG)
 
 Instead of using the scenemanager to load a single scene, you can create a MultiSceneObject in your asset folder and assign each scene file (by string name) that should form a singular scene.
 You can then use MultiSceneManager as you would use unity's scenemanager to load each scene. You call the load methods similar to the scenemanager's "LoadScene" syntax. Instead you use MultiSceneManager.LoadMultiScene/(Async).

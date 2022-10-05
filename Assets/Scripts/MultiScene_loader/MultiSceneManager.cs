@@ -2,102 +2,94 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
-
-public class MultiSceneManager : MonoBehaviour
+using System;
+namespace MultiSceneManagement
 {
-
-  [HideInInspector]  public bool isDone = true;
-    public static MultiSceneManager instance;
-    public MultiSceneObject[] multiScenesInBuild;
-
-
-    void Awake()
+    public class MultiSceneManager
     {
-        //Maak een singleton, als er al eentje aanwezig is pleeg meteen zelfmoord.
-        if (instance != null)
+        public static bool isDone = true;
+        public static float progress = 0f;
+        public static MultiSceneObject[] multiScenesInBuild;
+        public class StaticCoroutineContainer : MonoBehaviour { void Awake() { DontDestroyOnLoad(gameObject); } }
+        private static StaticCoroutineContainer staticCoroutine;
+
+        //The same functionality as Unity's SceneManager.LoadScene();
+        public static void LoadMultiScene(MultiSceneObject sceneObject)
         {
-            DestroyImmediate(this.gameObject);
-            return;
-        }
-        else
-        {
-            instance = this;
-        }
-
-        DontDestroyOnLoad(gameObject);
-    }
-
-
-    public void LoadMultiScene(MultiSceneObject sceneObject)
-    {
-
-        isDone = false;
-        Debug.Log("Finished:"+isDone);
-        for (int i = 0; i < sceneObject.sceneNames.Length; i++)
-        {
-            //Als we de eerste index hebben [0] laden we de scene normaal, de opvolgende indexes laden additief.
-            if (i == 0)
+            isDone = false;
+            progress = 0f;
+            Debug.Log(isDone);
+            for (int i = 0; i < sceneObject.sceneNames.Length; i++)
             {
-                SceneManager.LoadScene(sceneObject.sceneNames[i], LoadSceneMode.Single);
-            }
-            else
-            {
-                SceneManager.LoadScene(sceneObject.sceneNames[i], LoadSceneMode.Additive);
-
-            }
-        }
-        isDone = true;
-        Debug.Log("Finished:"+isDone);
-    }
-
-    public void LoadMultiSceneAsync(MultiSceneObject sceneObject)
-    {
-
-        isDone = false;
-        Debug.Log("Finished:"+isDone);
-        StartCoroutine(LoadOperation(sceneObject));
-        isDone = true;
-        Debug.Log("Finished:"+isDone);
-
-    }
-
-
-    IEnumerator LoadOperation(MultiSceneObject sceneObject)
-    {
-        float progress = 0f;
-
-        for (int i = 0; i < sceneObject.sceneNames.Length; i++)
-        {
-            //Als we de eerste index hebben [0] laden we de scene normaal, de opvolgende indexes laden additief.
-            if (i == 0)
-            {
-                AsyncOperation op = SceneManager.LoadSceneAsync(sceneObject.sceneNames[i], LoadSceneMode.Single);
-                while (!op.isDone)
+                //Als we de eerste index hebben [0] laden we de scene normaal, de opvolgende indexes laden additief.
+                if (i == 0)
                 {
-                    progress = Mathf.Clamp01(op.progress / .9f);
-                    Debug.Log(op.progress);
-
-                    yield return null;
+                    SceneManager.LoadScene(sceneObject.sceneNames[i], LoadSceneMode.Single);
+                }
+                else
+                {
+                    SceneManager.LoadScene(sceneObject.sceneNames[i], LoadSceneMode.Additive);
                 }
             }
-            else
-            {
-                AsyncOperation op = SceneManager.LoadSceneAsync(sceneObject.sceneNames[i], LoadSceneMode.Additive);
-                while (!op.isDone)
-                {
-                    progress = Mathf.Clamp01(op.progress / .9f);
-                    Debug.Log(op.progress);
-
-                    yield return null;
-                }
-
-            }
-
-
+            isDone = true;
+            Debug.Log(isDone);
         }
-
+        //The same functionality as Unity's SceneManager.LoadSceneAsync();
+        public static void LoadMultiSceneAsync(MultiSceneObject sceneObject)
+        {
+            InitStaticCoroutineContainer();
+            staticCoroutine.StartCoroutine(LoadOperation(sceneObject));
+        }
+        //We need to create a placeholder container that derives from monobehavior so we can use Coroutines in this static class.
+        private static void InitStaticCoroutineContainer()
+        {
+            //If the instance not exit the first time we call the static class
+            if (staticCoroutine == null)
+            {
+                // GameObject gameObject = GameObject.FindObjectOfType<GameManager>().gameObject;
+                GameObject gameObject = new GameObject("LoadContainer");
+                //Add this script to the object and instantly reference it in our staticCoroutine.
+                staticCoroutine = gameObject.AddComponent<StaticCoroutineContainer>();
+                Debug.Log(gameObject.name);
+                Debug.Log(gameObject.scene.name);
+            }
+        }
+        public static IEnumerator LoadOperation(MultiSceneObject sceneObject)
+        {
+            isDone = false;
+            Debug.Log(isDone);
+            progress = 0f;
+            Debug.Log($"sceneNames length:{sceneObject.sceneNames.Length}");
+            for (int i = 0; i < sceneObject.sceneNames.Length; i++)
+            {
+                //Als we de eerste index hebben [0] laden we de scene normaal, de opvolgende indexes laden additief.
+                if (i == 0)
+                {
+                    Debug.Log("Loading scene:" + i);
+                    AsyncOperation op = SceneManager.LoadSceneAsync(sceneObject.sceneNames[i], LoadSceneMode.Single);
+                    while (!op.isDone)
+                    {
+                        progress = Mathf.Clamp01(op.progress / .9f);
+                        Debug.Log(op.progress);
+                        yield return null;
+                    }
+                    Debug.Log("Loading scene:" + i + " DONE");
+                }
+                else
+                {
+                    Debug.Log("Loading scene:" + i);
+                    AsyncOperation op = SceneManager.LoadSceneAsync(sceneObject.sceneNames[i], LoadSceneMode.Additive);
+                    while (!op.isDone)
+                    {
+                        progress = Mathf.Clamp01(op.progress / .9f);
+                        Debug.Log(op.progress);
+                        yield return null;
+                    }
+                    Debug.Log("Loading scene:" + i + " DONE");
+                }
+                isDone = true;
+                Debug.Log(isDone);
+            }
+        }
     }
-
-
 }

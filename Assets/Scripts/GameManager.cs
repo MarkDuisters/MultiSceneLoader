@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using MultiSceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -30,15 +30,15 @@ public class GameManager : MonoBehaviour
 
 
 
-   public void LoadTest()
+    public void LoadTest()
     {
         //Simple load test of the system.
         if (loadAsync)
-            MultiSceneManager.instance.LoadMultiSceneAsync(MultiSceneManager.instance.multiScenesInBuild[0]);
+            MultiSceneManager.LoadMultiSceneAsync(MultiSceneManager.multiScenesInBuild[0]);
         else
-        {
-            MultiSceneManager.instance.LoadMultiScene(MultiSceneManager.instance.multiScenesInBuild[0]);
-        }
+
+            MultiSceneManager.LoadMultiScene(MultiSceneManager.multiScenesInBuild[0]);
+
     }
 
 

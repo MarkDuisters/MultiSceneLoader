@@ -13,6 +13,7 @@ The MultiSceneObject will reference those scenes.
 Instead of using the scenemanager to load a single scene, you can create a MultiSceneObject in your asset folder and assign each scene file (by string name) that should form a singular scene.
 You can then use MultiSceneManager as you would use unity's scenemanager to load each scene. You call the load methods similar to the scenemanager's "LoadScene" syntax. Instead you use MultiSceneManager.LoadMultiScene/(Async).
 Adding to that. You can use either the MultiScene buildt list or use a direct MulstiScene reference to load all your scenes.
+
 ![multisceneobject](img/multisceneobject.PNG)
 ![LoadingSyntax](/img/LoadingSyntax.PNG)
 

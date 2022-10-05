@@ -39,9 +39,11 @@ Note:
 - Create a MultiSceneObject by right clicking in your Asset folder.
 - Go to MultiSceneManager.
 - Click on MultiScene.
+- 
 ![createmultisceneobject](img/createmultisceneobject.gif)
 
 -Add the MultiSceneBuildList script to an empty GameObject (This object will get the DoNotDestroy flag).
+
 ![mutliscenebuildlist](img/mutliscenebuildlist.PNG)
 - Create a script similar to the normal scenemanager's method that loads the MultiScene file (see syntax above).
 

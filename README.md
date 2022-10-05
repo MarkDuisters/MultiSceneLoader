@@ -8,13 +8,13 @@ You or your team are working on a level consisting of multiple scene files. One 
 Instead of placing each developer in a prefab within a single scene, you can each assign them a dedicated scene to work on for their part.
 
 The MultiSceneObject will reference those scenes.
-![[MultiScenefile](/MultiSceneLoader/img/MultiScenefile.PNG)
+![MultiScenefile](/img/MultiScenefile.PNG)
 
 Instead of using the scenemanager to load a single scene, you can create a MultiSceneObject in your asset folder and assign each scene file (by string name) that should form a singular scene.
 You can then use MultiSceneManager as you would use unity's scenemanager to load each scene. You call the load methods similar to the scenemanager's "LoadScene" syntax. Instead you use MultiSceneManager.LoadMultiScene/(Async).
 Adding to that. You can use either the MultiScene buildt list or use a direct MulstiScene reference to load all your scenes.
-![[multisceneobject](MultiSceneLoader/img/multisceneobject.PNG)
-![[LoadingSyntax](MultiSceneLoader/img/LoadingSyntax.PNG)
+![multisceneobject](/img/multisceneobject.PNG)
+![LoadingSyntax](/img/LoadingSyntax.PNG)
 
 Note:
 
@@ -38,9 +38,9 @@ Note:
 - Create a MultiSceneObject by right clicking in your Asset folder.
 - Go to MultiSceneManager.
 - Click on MultiScene.
-![[createmultisceneobject](MultiSceneLoader/img/createmultisceneobject.gif)
+![createmultisceneobject](/img/createmultisceneobject.gif)
 
 -Add the MultiSceneBuildList script to an empty GameObject (This object will get the DoNotDestroy flag).
-![[mutliscenebuildlist](MultiSceneLoader/img/mutliscenebuildlist.PNG)
+![mutliscenebuildlist](/img/mutliscenebuildlist.PNG)
 - Create a script similar to the normal scenemanager's method that loads the MultiScene file (see syntax above).
 
